@@ -112,7 +112,12 @@ function Player(name, health, strength, speed) {
    * @name checkPack
    */
   this.checkPack = function() {
-    console.log(`${this.getPack()}`);
+    var pack = `You're pack contains: `
+    this.getPack().forEach(function (e) {
+      pack += e.name
+      pack += ' '
+    });
+    console.log(pack)
   };
   /**
    * Player Class Method => takeItem(item)
