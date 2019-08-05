@@ -28,8 +28,9 @@ function Item(name) {
  * @property {number} damage
  */
 function Weapon(name, damage) {
-  this.damage = damage;
   Item.call(this, name);
+  this.damage = damage;
+  
 }
 Weapon.prototype = Object.create(Item.prototype);
 
@@ -87,18 +88,18 @@ Food.prototype = Object.create(Item.prototype);
 function Player(name, health, strength, speed) {
   this.name = name;
   this.health = health;
-  this._maxHealth = health;
+  const _maxHealth = health;
   this.strength = strength;
   this.speed = speed;
   this.isAlive = true;
   this.equipped = false;
-  this._pack = [];
+  const _pack = [];
 
   this.getPack = function() {
-    return this._pack;
+    return _pack;
   };
   this.getMaxHealth = function() {
-    return this._maxHealth;
+    return _maxHealth;
   };
   /**
    * Player Class Method => checkPack()
@@ -111,7 +112,7 @@ function Player(name, health, strength, speed) {
    *
    * @name checkPack
    */
-  this.checkPack = function() {
+  Player.prototype.checkPack = function() {
     var pack = `You're pack contains: `
     this.getPack().forEach(function (e) {
       pack += e.name
@@ -136,9 +137,9 @@ function Player(name, health, strength, speed) {
    * @param {Item/Weapon/Food} item   The item to take.
    * @return {boolean} true/false     Whether player was able to store item in pack.
    */
-  this.takeItem = function(item) {
-    if (this._pack.length < 3) {
-      this._pack.push(item);
+  Player.prototype.takeItem = function(item) {
+    if (_pack.length < 3) {
+      _pack.push(item);
       console.log(`${this.name} found a ${item.name}`);
       return true;
     } else {
@@ -171,14 +172,14 @@ function Player(name, health, strength, speed) {
    * @param {Item/Weapon/Food} item   The item to discard.
    * @return {boolean} true/false     Whether player was able to remove item from pack.
    */
-  this.discardItem = function(item) {
-    let dex = this._pack.indexOf(item);
+  Player.prototype.discardItem = function(item) {
+    let dex = _pack.indexOf(item);
     if (dex === -1) {
       console.log(`${this.name} ${item.name} is not in your pack`);
       return false;
     } else {
       console.log(`${item.name} has been removed`);
-      this._pack.splice(dex, 1);
+      _pack.splice(dex, 1);
       return true;
     }
   };
@@ -201,10 +202,10 @@ function Player(name, health, strength, speed) {
    * @name equip
    * @param {Weapon} itemToEquip  The weapon item to equip.
    */
-  this.equip = function(itemToEquip) {
+  Player.prototype.equip = function(itemToEquip) {
     if (!itemToEquip instanceof Weapon) {
       return false;
-    } else if (this._pack.indexOf(itemToEquip) === -1) {
+    } else if (_pack.indexOf(itemToEquip) === -1) {
       return false;
     } else if (itemToEquip instanceof Weapon) {
       if (this.equipped === false) {
@@ -236,10 +237,10 @@ function Player(name, health, strength, speed) {
    * @name eat
    * @param {Food} itemToEat  The food item to eat.
    */
-  this.eat = function(itemToEat) {
+  Player.prototype.eat = function(itemToEat) {
     if (!itemToEat instanceof Food) {
       return false;
-    } else if (this._pack.indexOf(itemToEat) === -1) {
+    } else if (_pack.indexOf(itemToEat) === -1) {
       return false;
     } else if (itemToEat instanceof Food) {
       this.discardItem(itemToEat);
@@ -310,7 +311,7 @@ function Zombie(health, strength, speed) {
   this.health = health;
   this.strength = strength;
   this.speed = speed;
-  this._maxHealth = health;
+  const _maxHealth = health;
   this.isAlive = true;
 }
 /**
